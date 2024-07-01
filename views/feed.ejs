@@ -1,0 +1,35 @@
+<%- include("partials/feedHeader.ejs") %>
+
+<div class="container">
+    <h1>Real-Life journeys</h1>
+    <br>
+
+    <a id="newPostBtn" href="/new" style="text-decoration: none;">New Post</a>
+    <ul id="postsList">
+      <% posts.forEach((post)=> { %>
+        <br>
+        <li>
+          <h2>
+              <%=post.title%>
+          </h2>
+          <small>
+            <%= post.posted_on %>
+          </small>
+          <p>
+            <%=post.content%>
+          </p>
+          <small>By:  <%=post.author%>  </small>
+          <a class="edit" href="/edit/<%= post.id %>"  style="text-decoration: none;  color: white;">Edit</a>
+          <a class="delete" href="/api/posts/delete/<%= post.id %>" style="text-decoration: none; color: white;">Delete</a>
+        </li>
+        <br>
+        <hr>
+        <br>
+
+        <% }); %>
+    </ul>
+  </div>
+
+
+
+<%- include("partials/footer.ejs") %>
