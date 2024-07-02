@@ -103,3 +103,37 @@ body {
     justify-content: center;
 }  
 
+.subscription-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  text-align: center;
+}
+.subscription-container h2 {
+  margin-top: 0;
+}
+.subscription-container p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+.subscription-container input[type="email"] {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.subscription-container button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.subscription-container button:hover {
+  background-color: #45a049;
+}

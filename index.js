@@ -18,8 +18,6 @@ const port = 4000;
 // In-memory data store
 
 
-let lastId = 6;
-
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -62,6 +60,30 @@ app.post("/posts", async (req, res) => {
   const posts=await db.query("SELECT * FROM public.aaa");
   res.status(201).json(posts.rows);
 });
+//getting email 
+
+app.post("/subscribe" , async(req , res)=>{
+
+  const useremail=req.body.email;
+  console.log(useremail);
+  
+  try{
+    const all_emails=await db.query("SELECT * FROM public.users WHERE users.email=$1" ,[useremail]);
+    if(all_emails.rows.length===0){
+      try{
+        await db.query("INSERT INTO public.users (email) VALUES ($1)  " , [useremail]);
+        res.status(201).json(useremail);
+      }catch(err){
+        console.log(err);
+      }
+    }else{
+      res.status(201).json(null);
+    }
+  }catch(err){
+    console.log(err);
+  }
+  
+})
 
 // PATCH a post when you just want to update one parameter
 app.patch("/posts/:id", async(req, res) => {

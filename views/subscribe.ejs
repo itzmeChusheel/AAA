@@ -1,0 +1,22 @@
+<%- include("partials/feedHeader.ejs") %>
+<div class="container">
+
+    <h5 style="font-family:Arial, Helvetica, sans-serif;"> 
+        Warm welcome you to AAA - Ascend, Achieve, Aspire!
+    </h5>
+    <p style="font-family:Arial, Helvetica, sans-serif;">
+        <%= message %>
+    </p>
+    <p style="font-family:Arial, Helvetica, sans-serif;">
+        <%= conclusion %>
+    </p>
+    <p style="font-family:monospace; font-style: italic;" >
+        <%= already_present %>
+    </p>
+    <form action="/subscribe" method="POST">
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        <button type="submit">Subscribe</button>
+
+    </form>
+</div>
+<%- include("partials/footer.ejs") %>
