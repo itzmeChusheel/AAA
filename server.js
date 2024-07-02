@@ -1,6 +1,52 @@
-import express, { response } from "express";
+import express from "express";
 import bodyParser from "body-parser";
 import axios from "axios";
+import env from "dotenv";
+import nodemailer from "nodemailer";
+import { google } from "googleapis";
+
+env.config();
+
+const client_id=process.env.CLIENT_ID;
+const client_secret=process.env.CLIENT_SECRET;
+const redirect_url=process.env.REDIRECT_URL;
+const refreshtoken=process.env.REFRESHTOKEN;
+
+
+const oAuth2client= new google.auth.OAuth2(client_id , client_secret , redirect_url);
+oAuth2client.setCredentials({refresh_token:refreshtoken});
+
+
+
+async function sendMail(recipient_mail){
+  try{
+    const accessToken = await oAuth2client.getAccessToken();
+    const transport=nodemailer.createTransport({
+      service:'gmail',
+      auth:{
+        type:'OAuth2',
+        user:'itzmechusheel@gmail.com',
+        clientId:client_id,
+        clientSecret:client_secret,
+        refreshToken:refreshtoken,
+        accessToken:accessToken
+      }
+    });
+
+    const mailOptions={
+      from:'AAA-Lets Aspire <itzmechusheel@gmail.com>',
+      to: recipient_mail,
+      subject:'Welcome to AAA-Lets Aspire',
+      text:process.env.subscribe_letter,
+      html:process.env.subscribe_html,
+    };
+    const result=await transport.sendMail(mailOptions);
+    return result;
+  }catch(err){
+    return err;
+  }
+}
+
 const app = express();
 const port = 3000;
 const API_URL="http://localhost:4000";
@@ -62,11 +108,16 @@ app.get("/edit/:id", async (req, res) => {
 
 app.post('/subscribe', async (req, res) => {
     console.log(req.body.email);
+    const recipient_mail=req.body.email;
     try {
         const response=await axios.post(`${API_URL}/subscribe`, req.body);
         let already="";
         if(response.data==null){
           already="You have already registered !";
+        }else{
+          sendMail(recipient_mail).then(result=> console.log("Email is sent..." , result))
+          .catch(err=> console.log(err));
+          already="You have successfully registered !";
         }
         res.render("subscribe.ejs", { message: 'Thank you for subscribing to our manifestation journey at AAA - Ascend, Achieve, Aspire! '  , 
           conclusion:"We are thrilled to have you as a part of our community. By joining us, you are taking a powerful step towards a more positive and fulfilling life. Our daily manifestation quotes are designed to inspire and uplift you, helping you to stay focused on your goals and maintain a positive mindset. Together, let's ascend to new heights, achieve our dreams, and aspire to be the best versions of ourselves. Stay tuned for your daily dose of motivation and encouragement!",
@@ -106,6 +157,11 @@ app.post('/subscribe', async (req, res) => {
             res.status(500).json({message:"Error deleting post"});
         }
     })
+
+
+//sending a mail to subscribed 
+
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
