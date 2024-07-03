@@ -5,10 +5,10 @@
 
     <% post.forEach((po) => { %>
     <li>
-      <div class="story-container">
+      <div class="container">
         <h2 class="story-title"><%= po.title %></h2>
-        <p class="story-author-date">By <%= po.author %> - <%= po.date %></p>
-        <div class="story-content"><%= po.content %></div>
+        <p class="story-author-date">By <%= po.author %> - <%= po.posted_on %></p>
+        <div class="story-content" style="white-space: pre-line;"><%= po.content %></div>
       </div>
     </li>
     <% }); %>

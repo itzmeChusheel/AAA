@@ -69,6 +69,10 @@ app.get("/feed" , async (req , res)=>{
     }
 })
 
+app.get("/manifest" , async(req , res)=>{
+  res.render("manifest.ejs");
+})
+
 app.get("/new", (req, res) => {
     res.render("modify.ejs", { heading: "New Post", submit: "Create Post" });
   });
