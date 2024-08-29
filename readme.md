@@ -1,6 +1,6 @@
-# AAAascend Aspire
+# AAA Ascend Aspire Achieve
 
-AAAascend Aspire is a responsive and user-friendly platform dedicated to helping individuals overcome tough times and achieve their life goals.
+AAA  is a responsive and user-friendly platform dedicated to helping individuals overcome tough times and achieve their life goals.
 
 ## Features
 
